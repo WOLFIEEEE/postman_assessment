@@ -1,0 +1,14 @@
+{
+    "name": "Assessment",
+    "version": "1.0.0",
+    "description": "A node js application which takes data from a api and push it into a database",
+    "author": "Khushwant Parihar <kgpkhushwant1@gmail.com>",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "axios": "^0.21.1",
+        "mongoose": "^6.0.2"
+    }
+}
