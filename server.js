@@ -1,7 +1,6 @@
 
 var axios = require('axios');
 global.token="";
-var insert = require("./Modules/db");
 var auth = require("./Modules/token");
 var api= require("./Modules/apisubpages");
 var pagesize=1;
@@ -26,10 +25,6 @@ async function generatepages() {
     {
       console.log("if conndtion runned")
       return generatepages();
-    }
-    else
-    {
-    return 0;
     }
   } catch(error) {
     if (error.response) {

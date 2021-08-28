@@ -5,7 +5,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run(apidata)
 {
     await client.connect();
-    const collection = await client.db("Postman").collection("api5");
+    const collection = await client.db("Postman").collection("final1");
     const insertone = await collection.insertMany(apidata)
     client.close()
 }

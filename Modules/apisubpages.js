@@ -1,7 +1,7 @@
 var axios = require('axios');
 const sleep = (waitTimeInMs) => new Promise(resolve => setTimeout(resolve, waitTimeInMs));
 var insert = require("./db");
-
+var auth = require("./token");
 
 async function generatesubpages(category,subpagenumber)
 { 
@@ -25,11 +25,6 @@ async function generatesubpages(category,subpagenumber)
       subpagenumber++;
       return generatesubpages(category,subpagenumber);
     }
-    else
-    {
-      return 0;
-    }
-
   } catch(error) {
     if (error.response) {
     if(error.response.status== 429)
