@@ -3,8 +3,10 @@ var axios = require('axios');
 var subpagenumber=1;
 var token="";
 var insert = require("./Modules/db");
+var pagesize=1;
 
 const sleep = (waitTimeInMs) => new Promise(resolve => setTimeout(resolve, waitTimeInMs));
+
 async function generatetoken()
 {
 var config = {
@@ -39,7 +41,7 @@ async function nexttoken()
   try{
     const data2 = await axios(config);
     token=data2.data.token;
-    console.log(token);
+    // console.log(token);
   }
   catch(error)
   {
@@ -47,7 +49,7 @@ async function nexttoken()
   }
 }
 
-var pagesize=1;
+
 async function generatepages() {
   try {
     
@@ -69,17 +71,28 @@ async function generatepages() {
     }
     else
     {
-    return;
+    return 0;
     }
   } catch(error) {
-    console.log("******************************************************************")
-    console.log("catch block runned generate pages runned changing the token")
-    console.log("******************************************************************")
-    console.log("Previous token "+token)
-    const main = await nexttoken();
-    console.log("New token "+ token)
-    await sleep(6000);
-    generatepages()
+    if(error.response.status== 429)
+    {
+        console.log("to may request we will be waiting here for few second that resume the program")
+        await sleep(6000);
+        return generatepages();
+
+    }
+    else if (error.response.status== 403)
+    {
+        console.log("token expired generate the new token and run the program again")
+        const token1= await nexttoken();
+        await sleep(6000);
+        return  generatepages();
+    }
+    else
+    {
+        console.log("some other error ocurred")
+        console.log(error);
+    }
   }
 }
 
@@ -108,33 +121,45 @@ async function generatesubpages(category)
       url: 'https://public-apis-api.herokuapp.com/api/v1/apis/entry?page='+subpagenumber+'&category='+category,
       headers: {Authorization: 'Bearer '+token}
     };
-    console.log(config.url);
+    // console.log(config.url);
     const data = await axios(config);
-    const array= data.data.categories;
-    console.log(array[1])
-    console.log(array.length)
+    const array1= data.data.categories;
+    // console.log(array[1])
+    console.log("length of subpagearray"+array1.length)
     await sleep(6000);
 
-    if(array.length!=0)
+    if(array1.length!=0)
     {
-      storearrayindatabase(array);
+      storearrayindatabase(array1);
       subpagenumber++;
       return generatesubpages(category);
     }
     else
     {
-      return;
+      return 0;
     }
 
   } catch(error) {
-    console.log("******************************************************************")
-    console.log("catch block runned generate subpages runned")
-    console.log("******************************************************************")
-    console.log("Previous token "+token)
-    const main = await nexttoken();
-    console.log("New token "+ token)
-    await sleep(6000);
-    generatesubpages();
+    if(error.response.status== 429)
+    {
+        console.log("to may request we will be waiting here for few second that resume the program")
+        await sleep(6000);
+        return generatesubpages(category);
+
+    }
+    else if (error.response.status== 403)
+    {
+        console.log("token expired generate the new token and run the program again")
+        const token= await nexttoken();
+        await sleep(6000);
+        return generatesubpages(category);
+
+    }
+    else
+    {
+        console.log("some other error ocurred")
+        console.log(error);
+    }
   }
 }
 
