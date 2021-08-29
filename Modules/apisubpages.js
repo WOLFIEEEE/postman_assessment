@@ -1,5 +1,4 @@
 var axios = require('axios');
-const sleep = (waitTimeInMs) => new Promise(resolve => setTimeout(resolve, waitTimeInMs));
 var insert = require("./db");
 var auth = require("./token");
 
@@ -16,12 +15,11 @@ async function generatesubpages(category,subpagenumber)
     const data = await axios(config);
     const array1= data.data.categories;
     // console.log(array[1])
-    console.log("length of subpagearray"+array1.length)
-    await sleep(6000);
+    // console.log("length of subpagearray"+array1.length)
 
     if(array1.length!=0)
     {
-      insert.run(array1);
+      await insert.run(array1);
       subpagenumber++;
       return generatesubpages(category,subpagenumber);
     }
@@ -29,16 +27,14 @@ async function generatesubpages(category,subpagenumber)
     if (error.response) {
     if(error.response.status== 429)
     {
-        console.log("to may request we will be waiting here for few second that resume the program")
-        await sleep(6000);
+        // console.log("to may request we will be waiting here for few second that resume the program")
         return generatesubpages(category,subpagenumber);
 
     }
     else if (error.response.status== 403)
     {
-        console.log("token expired generate the new token and run the program again")
-        const token= await auth.generatetoken();
-        await sleep(6000);
+        // console.log("token expired generate the new token and run the program again")
+        await auth.generatetoken();
         return generatesubpages(category,subpagenumber);
 
     }

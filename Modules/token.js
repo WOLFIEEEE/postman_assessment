@@ -12,11 +12,21 @@ await sleep(6000);
 try{
   const data2 = await axios(config);
   token=data2.data.token;
-  console.log(token);
+//   console.log(token);
 }
 catch(error)
 {
-  console.log(error);
+    if (error.response) {
+        if(error.response.status== 429)
+        {
+            return generatetoken();
+    
+        }
+    }
+    else
+    {
+        console.log(error);
+    }
 }
 }
 
