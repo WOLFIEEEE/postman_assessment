@@ -69,7 +69,7 @@
 
 We are creating a separate collection for every category in our monogodb database , as mongodb is not dependent on schema and we don't have much relationship in our data rather that category we will be going with default schema . 
 
-```json
+```bash
 {
     _id : {type: ObjectId}
     API: { type: String},
