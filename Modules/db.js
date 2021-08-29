@@ -7,7 +7,13 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run(apidata)
 {
     console.log("stored in db of length"+ apidata.length);
+    try
+    {
     await client.connect();
+    } catch (err)
+    {
+        console.log(error);
+    }
     const collection = await client.db(env.database_name).collection(env.collectionn_name);
     const insertone = await collection.insertMany(apidata)
     client.close()
