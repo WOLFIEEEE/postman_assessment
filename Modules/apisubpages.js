@@ -5,8 +5,7 @@ const env = require("../env.json");
 
 let Mongo = new MongoClass.MongoWrapper(
   env.database_uri,
-  env.database_name,
-  env.collectionn_name
+  env.database_name
 );
 Mongo.MongoClient();
 
@@ -25,7 +24,7 @@ async function generatesubpages(category, subpagenumber) {
       console.log(
         `Storing api's of category ${category} of page ${subpagenumber} in database`
       );
-      await Mongo.storedata(array1);
+      await Mongo.storedata(array1,category);
       subpagenumber++;
       return generatesubpages(category, subpagenumber);
     }
