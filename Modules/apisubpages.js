@@ -1,6 +1,10 @@
 var axios = require("axios");
-var insert = require("./db");
+const MongoClass = require("./db");
 var auth = require("./token");
+const env = require("../env.json");
+
+let Mongo = new MongoClass.MongoWrapper(env.database_uri,env.database_name,env.collectionn_name);
+Mongo.MongoClient();
 
 async function generatesubpages(category, subpagenumber) {
   category = encodeURIComponent(category);
@@ -21,7 +25,7 @@ async function generatesubpages(category, subpagenumber) {
     // console.log("length of subpagearray"+array1.length)
 
     if (array1.length != 0) {
-      await insert.run(array1);
+      await Mongo.storedata(array1);
       subpagenumber++;
       return generatesubpages(category, subpagenumber);
     }
@@ -37,7 +41,7 @@ async function generatesubpages(category, subpagenumber) {
       }
     } else {
       console.log("some other error ocurred");
-      console.log(error);
+      console.error(error);
     }
   }
 }

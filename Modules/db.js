@@ -1,26 +1,34 @@
-const env = require("../env.json");
-
 const { MongoClient } = require("mongodb");
-const uri = env.database_uri;
-const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-async function run(apidata) {
-  console.log("stored in db of length" + apidata.length);
-  try {
-    await client.connect();
-  } catch (err) {
-    console.log(error);
+let client = {};
+class MongoWrapper {
+  constructor(uri,database_name,collectionn_name) {
+    this.uri = uri;
+    this.database_name=database_name;
+    this.collectionn_name=collectionn_name;
   }
-  const collection = await client
-    .db(env.database_name)
-    .collection(env.collectionn_name);
-  const insertone = await collection.insertMany(apidata);
-  client.close();
+  MongoClient() {
+    client = new MongoClient(this.uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+  }
+  async storedata(array) {
+    try {
+      await client.connect();
+      const collection = await client
+        .db(this.database_name)
+        .collection(this.collectionn_name);
+      await collection.insertMany(array);
+      client.close();
+    } catch (err) {
+      console.error(err);
+    }
+  }
 }
 
 module.exports = {
-  run,
-};
+    MongoWrapper
+  };
+// let myCar1 = new MongoWrapper(uriaaa);
+// myCar1.MongoClient();
+// myCar1.storedata();
