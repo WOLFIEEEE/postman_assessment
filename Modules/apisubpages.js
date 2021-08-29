@@ -25,6 +25,7 @@ async function generatesubpages(category, subpagenumber) {
     // console.log("length of subpagearray"+array1.length)
 
     if (array1.length != 0) {
+      console.log("Storing api's of "+ category + " on page " + subpagenumber +" in database");
       await Mongo.storedata(array1);
       subpagenumber++;
       return generatesubpages(category, subpagenumber);

@@ -3,6 +3,8 @@ global.token = "";
 var auth = require("./Modules/token");
 var api = require("./Modules/apisubpages");
 
+
+
 async function generatepages(pagenumber) {
   try {
     var config = {
@@ -16,7 +18,6 @@ async function generatepages(pagenumber) {
     };
     const data = await axios(config);
     const array = data.data.categories;
-    console.log(array.length);
     pagenumber++;
     const var1 = await generatesubcategory(array);
     if (array.length != 0) {
