@@ -1,24 +1,26 @@
-env = require('../env.json')
+const env = require("../env.json");
 
-const { MongoClient } = require('mongodb');
+const { MongoClient } = require("mongodb");
 const uri = env.database_uri;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-async function run(apidata)
-{
-    console.log("stored in db of length"+ apidata.length);
-    try
-    {
+async function run(apidata) {
+  console.log("stored in db of length" + apidata.length);
+  try {
     await client.connect();
-    } catch (err)
-    {
-        console.log(error);
-    }
-    const collection = await client.db(env.database_name).collection(env.collectionn_name);
-    const insertone = await collection.insertMany(apidata)
-    client.close()
+  } catch (err) {
+    console.log(error);
+  }
+  const collection = await client
+    .db(env.database_name)
+    .collection(env.collectionn_name);
+  const insertone = await collection.insertMany(apidata);
+  client.close();
 }
 
 module.exports = {
-    run
-}
+  run,
+};
