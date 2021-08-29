@@ -29,6 +29,3 @@ class MongoWrapper {
 module.exports = {
     MongoWrapper
   };
-// let myCar1 = new MongoWrapper(uriaaa);
-// myCar1.MongoClient();
-// myCar1.storedata();
