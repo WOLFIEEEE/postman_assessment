@@ -2,7 +2,7 @@ version: '2'
 services:
   app:
     build: .
-    image: postman_assessment
+    image: postman
     environment:
       NODE_ENV: development
     ports:

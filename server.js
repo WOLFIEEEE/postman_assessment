@@ -3,7 +3,6 @@ var axios = require('axios');
 global.token="";
 var auth = require("./Modules/token");
 var api= require("./Modules/apisubpages");
-var pagesize=1;
 
 async function generatepages(pagenumber) {
   try {
