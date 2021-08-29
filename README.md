@@ -37,9 +37,8 @@
 
     ```json
     {
-    "database_uri":"mongodb url",
+    "database_uri":"mongodb_url",
     "database_name":"Postman_Assessment",
-    "collectionn_name":"Api collections"
     }
     ```
 
@@ -49,11 +48,11 @@
 - **Step 4**
     In windows
      ```bash
-    docker-compose up
+    docker-compose up --build 
     ```
     In Linux based operating system 
      ```bash
-    sudo docker-compose up
+    sudo docker-compose up --build
     ```
 
 ## - Using npm
@@ -66,13 +65,54 @@
      ```bash
     node server.js
     ```
+##  Database Schema
 
+We are creating a separate collection for every category in our monogodb database , as mongodb is not dependent on schema and we don't have much relationship in our data rather that category we will be going with default schema . 
+
+```json
+{
+    _id : {type: ObjectId}
+    API: { type: String},
+    Description: { type: String},
+    Auth:{type : String}
+    HTTPS: { type: Boolean },
+    Cors: { type: String},
+    Link : {type: String},
+    category:{type: String} 
+}
+```
+
+Here's is the sample structure
+
+```json
+{
+    "_id": {
+        "$oid": "612bda30238707befe88af13"
+    },
+    "API": "IUCN",
+    "Description": "IUCN Red List of Threatened Species",
+    "Auth": "apiKey",
+    "HTTPS": false,
+    "Cors": "unknown",
+    "Link": "http://apiv3.iucnredlist.org/api/v3/docs",
+    "Category": "Animals"
+}
+```
+
+    
 
 
 ## Flow of Code:
 <p align="center">
   <img src="images/flow.png" width="" title="hover text">
 </p>
+
+## Improvement for future
+
+- Adding mongodb locally with node js in the same docker(wasn't able to achive that cause of time constraints)
+- Improving writability of my code I tried to make it as easy to understand as I could but it's still not enough I guess.
+- Utilising the concepts of OOPs , I have applied the conecpt of OOPs but I wasn't able to full utilise them .
+
     
 
 
